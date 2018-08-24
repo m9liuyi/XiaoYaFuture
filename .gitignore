@@ -1,0 +1,5 @@
+# 例如忽略所有的bin和obj目录：
+obj/
+bin/
+packages/
+.vs/
