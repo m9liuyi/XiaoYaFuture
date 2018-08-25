@@ -43,6 +43,13 @@ namespace XiaoYaFuture.Manager
             return result;
         }
 
+        public List<DTO_XYFUser> Update(List<DTO_XYFUser> users)
+        {
+            var result = this.userRepository.Update(users);
+
+            return result;
+        }
+
         public DTO_XYFUser Delete(int id)
         {
             var result = this.userRepository.Delete(id);
@@ -83,6 +90,29 @@ namespace XiaoYaFuture.Manager
             return this.userRepository.List(query);
         }
 
-        
+        public List<DTO_XYFUser> GetByIds(List<int> ids)
+        {
+            return this.userRepository.GetByIds(ids);
+        }
+
+        public List<DTO_XYFUser> Delete(List<DTO_XYFUser> users)
+        {
+            return this.userRepository.Delete(users);
+        }
+
+        public List<DTO_XYFUser> Delete(List<int> ids)
+        {
+            return this.userRepository.Delete(ids);
+        }
+
+        public List<DTO_XYFUser> Remove(List<DTO_XYFUser> users)
+        {
+            return this.userRepository.Remove(users);
+        }
+
+        public List<DTO_XYFUser> Remove(List<int> ids)
+        {
+            return this.userRepository.Delete(ids);
+        }
     }
 }

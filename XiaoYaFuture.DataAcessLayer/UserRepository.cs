@@ -12,7 +12,7 @@ namespace XiaoYaFuture.DataAcessLayer
 {
     public class UserRepository : BaseRepository<DTO_XYFUser, XYFUser>, IUserRepository
     {
-        public UserRepository(IBaseDal<DTO_XYFUser, XYFUser> dal) : base(dal)
+        public UserRepository(IBaseDal<XYFUser> dal) : base(dal)
         {
 
         }

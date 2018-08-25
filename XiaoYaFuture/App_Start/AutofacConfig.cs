@@ -26,8 +26,8 @@ namespace XiaoYaFuture
                 .InstancePerLifetimeScope();
 
             // 注册BaseDal<>
-            builder.RegisterGeneric(typeof(BaseDal<,>))
-                .As(typeof(IBaseDal<,>))
+            builder.RegisterGeneric(typeof(BaseDal<>))
+                .As(typeof(IBaseDal<>))
                 .InstancePerLifetimeScope();
 
             // 注册BaseRepository<>

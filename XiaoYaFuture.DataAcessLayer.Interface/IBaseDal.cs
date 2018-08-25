@@ -9,28 +9,42 @@ using XiaoYaFuture.QueryParameter;
 
 namespace XiaoYaFuture.DataAcessLayer.Interface
 {
-    public interface IBaseDal<T, E> 
-        where T : BaseDto
+    public interface IBaseDal<E> 
         where E : BaseEntity
     {
+        List<E> List<M>(M query) where M : BaseQueryParameters;
+
+        List<E> BulkInsert(List<E> entities);
+
+        List<E> BulkUpdate(List<E> entities);
+
         /// <summary>
-        /// 获取IQueryable数据源
+        /// 此方法 query 中只允许使用PrimaryKey(s)
         /// </summary>
-        /// <typeparam name="M">BaseQueryParameters</typeparam>
-        /// <param name="query">BaseQueryParameters子类</param>
+        /// <typeparam name="M"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="columnValues"></param>
         /// <returns></returns>
-        List<T> List<M>(M query) where M : BaseQueryParameters;
+        List<E> BulkUpdate<M>(M query, Dictionary<string, object> columnValues) where M : BaseQueryParameters;
 
-        List<T> BulkInsert(List<T> entities);
+        List<E> BulkRemove(List<E> entities);
 
-        List<T> BulkUpdate(List<T> entities);
+        /// <summary>
+        /// 此方法 query 中只允许使用PrimaryKey(s)
+        /// </summary>
+        /// <typeparam name="M"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        List<E> BulkRemoveById<M>(M query) where M : BaseQueryParameters;
 
-        List<T> BulkRemove(List<T> entities);
+        List<E> BulkDelete(List<E> entities);
 
-        List<T> BulkRemoveById<M>(M query) where M : BaseQueryParameters;
-
-        List<T> BulkDelete(List<T> entities);
-
-        List<T> BulkDeleteById<M>(M query) where M : BaseQueryParameters;
+        /// <summary>
+        /// 此方法 query 中只允许使用PrimaryKey(s)
+        /// </summary>
+        /// <typeparam name="M"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        List<E> BulkDeleteById<M>(M query) where M : BaseQueryParameters;
     }
 }

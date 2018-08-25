@@ -13,8 +13,7 @@ using Z.BulkOperations;
 
 namespace XiaoYaFuture.DataAcessLayer
 {
-    public class BaseDal<T, E> : IBaseDal<T, E> 
-        where T : BaseDto
+    public class BaseDal<E> : IBaseDal<E> 
         where E : BaseEntity
     {
         private XYFContext context { get; set; }
@@ -25,9 +24,9 @@ namespace XiaoYaFuture.DataAcessLayer
             this.context = context;
         }
 
-        #region IBaseDal<T> Members
+        #region IBaseDal<E> Members
 
-        public List<T> List<M>(M queryParameter) 
+        public List<E> List<M>(M queryParameter) 
             where M : BaseQueryParameters
         {
             var wheres = Extension.QueryToWhere<E,M>(queryParameter);
@@ -40,10 +39,10 @@ namespace XiaoYaFuture.DataAcessLayer
 
             var result = iQueryable.ToList();
 
-            return result.S2T<E, T>();
+            return result;
         }
 
-        public List<T> BulkInsert(List<T> entities)
+        public List<E> BulkInsert(List<E> entities)
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
@@ -53,10 +52,10 @@ namespace XiaoYaFuture.DataAcessLayer
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
             });
 
-            return auditEntries.AuditEntryToEntity<T>();
+            return auditEntries.AuditEntryToEntity<E>();
         }
 
-        public List<T> BulkUpdate(List<T> entities)
+        public List<E> BulkUpdate(List<E> entities)
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
@@ -66,10 +65,24 @@ namespace XiaoYaFuture.DataAcessLayer
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
             });
 
-            return auditEntries.SelectMany(p => p.Values.Select(x => x.NewValue)) as List<T>;
+            return auditEntries.AuditEntryToEntity<E>();
         }
 
-        public List<T> BulkRemove(List<T> entities)
+        public List<E> BulkUpdate<M>(M query, Dictionary<string, object> columnValues)
+            where M : BaseQueryParameters
+        {
+            var wheres = Extension.QueryToWhere<E, M>(query);
+
+            List<AuditEntry> auditEntries = new List<AuditEntry>();
+
+            context.Set<E>()
+                .Where<E>(wheres)
+                .UpdateFromQuery<E>(p => Extension.PrepareEntity4UpdateFromQuery<E>(columnValues));
+
+            return auditEntries.AuditEntryToEntity<E>();
+        }
+
+        public List<E> BulkRemove(List<E> entities)
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
@@ -79,16 +92,16 @@ namespace XiaoYaFuture.DataAcessLayer
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
             });
 
-            return auditEntries.SelectMany(p => p.Values.Select(x => x.NewValue)) as List<T>;
+            return auditEntries.AuditEntryToEntity<E>();
         }
 
-        public List<T> BulkRemoveById<M>(M query)
+        public List<E> BulkRemoveById<M>(M query)
             where M : BaseQueryParameters
         {
             if (query == null
                 || !(query.PrimaryKey == null || (query.PrimaryKeys == null || query.PrimaryKeys.Count() == 0)))
             {
-                return new List<T>();
+                return new List<E>();
             }
 
             List<AuditEntry> auditEntries = new List<AuditEntry>();
@@ -101,10 +114,10 @@ namespace XiaoYaFuture.DataAcessLayer
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
             });
 
-            return auditEntries.AuditEntryToEntity<T>();
+            return auditEntries.AuditEntryToEntity<E>();
         }
 
-        public List<T> BulkDelete(List<T> entities)
+        public List<E> BulkDelete(List<E> entities)
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
@@ -114,29 +127,23 @@ namespace XiaoYaFuture.DataAcessLayer
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
             });
 
-            return auditEntries.SelectMany(p => p.Values.Select(x => x.NewValue)) as List<T>;
+            return auditEntries.AuditEntryToEntity<E>();
         }
 
-        public List<T> BulkDeleteById<M>(M query) 
+        public List<E> BulkDeleteById<M>(M query) 
             where M : BaseQueryParameters
         {
 
             if (query == null 
                 || !(query.PrimaryKey == null || (query.PrimaryKeys == null || query.PrimaryKeys.Count() == 0)))
             {
-                return new List<T>();
+                return new List<E>();
             }
-
-            List<AuditEntry> auditEntries = new List<AuditEntry>();
-
-            var wheres = Extension.QueryToWhere<E, M>(query);
 
             var columnValues = new Dictionary<string, object>();
             columnValues.Add("IsDeleted", true);
 
-            context.Set<E>().Where(wheres).UpdateFromQuery<E>(p => Extension.PrepareT4UpdateFromQuery<E>(columnValues));
-
-            return auditEntries.AuditEntryToEntity<T>();
+            return this.BulkUpdate<M>(query, columnValues);
         }
         
         #endregion

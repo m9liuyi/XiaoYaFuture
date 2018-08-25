@@ -111,25 +111,20 @@ namespace XiaoYaFuture.Common
             return finalExpression;
         }
 
-        //private static bool Equals(this int left, int right)
-        //{
-        //    return left == right;
-        //}
-
         private static MethodCallExpression GetMethodCallExpression<E>(bool isLeftVar, ParameterExpression left, string fieldName, Type fieldType, string operation, object value)
         {
             if (isLeftVar)
             {
                 return Expression.Call(
                                     Expression.Property(left, typeof(E).GetProperty(fieldName)),
-                                    fieldType.GetRuntimeMethod(operation, new Type[] { fieldType }),
+                                    fieldType.GetRuntimeMethod(operation, new Type[] { value.GetType() }),
                                     Expression.Constant(value));
             }
             else
             {
                 return Expression.Call(
                                     Expression.Constant(value),
-                                    fieldType.GetMethod(operation, new Type[] { fieldType }),
+                                    value.GetType().GetMethod(operation, new Type[] { fieldType }),
                                     Expression.Property(left, typeof(E).GetProperty(fieldName)));
             }
         }
@@ -230,7 +225,57 @@ namespace XiaoYaFuture.Common
             .ToList<T>();
         }
 
-        public static T PrepareT4UpdateFromQuery<T>(Dictionary<string, object> keyValues)
+
+        public static T S2T<S, T>(this S source)
+        {
+            if (source == null)
+            {
+                return default(T);
+            }
+
+            var targetType = typeof(T);
+            var sourceType = typeof(S);
+
+            var propertiesOfTarget = targetType.GetProperties();
+            var propertiesOfSource = sourceType.GetProperties();
+
+            var propertyNamesOfTarget = propertiesOfTarget.Select(p => p.Name).ToList();
+            var propertyNamesOfSource = propertiesOfSource.Select(p => p.Name).ToList();
+
+            if (propertiesOfSource.Where(p => !propertyNamesOfTarget.Contains(p.Name)).Any())
+            {
+                throw new Exception("S中有些属性在T中不存在");
+            }
+
+
+
+            T obj = (T)targetType.Assembly.CreateInstance(targetType.FullName);
+
+            foreach (var columnName in propertyNamesOfSource)
+            {
+                object columnValue = sourceType.GetProperty(columnName).GetValue(source);
+
+                PropertyInfo property = targetType.GetProperty(columnName);
+                if (columnValue != DBNull.Value && columnValue != null)
+                {
+                    if (property.PropertyType.IsEnum)
+                    {
+                        object enumName = Enum.ToObject(property.PropertyType, columnValue);
+                        property.SetValue(obj, enumName, null);
+                    }
+                    else
+                    {
+                        property.SetValue(obj, columnValue, null);
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+
+        public static T PrepareEntity4UpdateFromQuery<T>(Dictionary<string, object> keyValues) 
+            where T : BaseEntity
         {
             var targetType = typeof(T);
 

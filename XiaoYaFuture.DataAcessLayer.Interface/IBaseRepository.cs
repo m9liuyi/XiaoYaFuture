@@ -12,22 +12,102 @@ namespace XiaoYaFuture.DataAcessLayer.Interface
         where T : BaseDto
         where E : BaseEntity
     {
+        #region search
+
         T GetById(int id);
+
+        List<T> GetByIds(List<int> ids);
 
         List<T> List<M>(M query) where M : BaseQueryParameters;
 
-        T Insert(T entity);
-        T Update(T entity);
-        T Remove(T entity);
+        #endregion
+
+        #region insert
+
+        T Insert(T dto);
+
+        List<T> Insert(List<T> dtos);
+
+        #endregion
+
+        #region update
+
+        T Update(T dto);
+
+        List<T> Update(List<T> dtos);
+
+        /// <summary>
+        /// 编辑ids中的指定几个字段
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="columnValues"></param>
+        /// <returns></returns>
+        List<T> Update(List<int> ids, Dictionary<string, object> columnValues);
+
+        #endregion
+
+        #region remove
+
+        /// <summary>
+        /// 物理删除
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        T Remove(T dto);
+
+        /// <summary>
+        /// 物理删除，所有Entity与Dto中必须用IsDelete字段标识删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         T Remove(int id);
-        T Delete(T entity);
+
+        /// <summary>
+        /// 物理删除
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <returns></returns>
+        List<T> Remove(List<T> dtos);
+
+        /// <summary>
+        /// 物理删除，所有Entity与Dto中必须用IsDelete字段标识删除
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        List<T> Remove(List<int> ids);
+
+        #endregion
+
+        #region delete
+
+        /// <summary>
+        /// 逻辑删除
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        T Delete(T dto);
+
+        /// <summary>
+        /// 逻辑删除，所有Entity与Dto中必须用IsDelete字段标识删除
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         T Delete(int id);
 
-        List<T> Insert(List<T> entities);
-        List<T> Update(List<T> entities);
-        List<T> Remove(List<T> entities);
-        List<T> Remove(List<int> ids);
-        List<T> Delete(List<T> entities);
+        /// <summary>
+        /// 逻辑删除
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <returns></returns>
+        List<T> Delete(List<T> dtos);
+
+        /// <summary>
+        /// 逻辑删除，所有Entity与Dto中必须用IsDelete字段标识删除
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         List<T> Delete(List<int> ids);
+
+        #endregion
     }
 }

@@ -21,6 +21,11 @@ namespace XiaoYaFuture.Controllers
             this.userManager = userManager;
         }
 
+        /// <summary>
+        /// 根据 query 查询
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [Route("List")]
         public List<DTO_XYFUser> Get([FromUri]UserQueryParameters query)
         {
@@ -28,7 +33,7 @@ namespace XiaoYaFuture.Controllers
         }
 
         /// <summary>
-        /// 根据Id获取
+        /// 根据 Id 查询
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
@@ -38,6 +43,17 @@ namespace XiaoYaFuture.Controllers
             return this.userManager.GetById(id);
         }
 
+        /// <summary>
+        /// 根据 Ids 查询
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        [Route("GetByIds")]
+        public List<DTO_XYFUser> Get([FromUri]List<int> ids)
+        {
+            return this.userManager.GetByIds(ids);
+        }
+
         [Route("Create")]
         public List<DTO_XYFUser> Post([FromBody]List<DTO_XYFUser> users)
         {
@@ -45,9 +61,9 @@ namespace XiaoYaFuture.Controllers
         }
 
         [Route("Update")]
-        public DTO_XYFUser Put([FromBody]DTO_XYFUser user)
+        public List<DTO_XYFUser> Put([FromBody]List<DTO_XYFUser> users)
         {
-            return this.userManager.Update(user);
+            return this.userManager.Update(users);
         }
 
         [Route("DeleteById")]
@@ -56,10 +72,22 @@ namespace XiaoYaFuture.Controllers
             return this.userManager.Delete(id);
         }
 
+        [Route("DeleteByIds")]
+        public List<DTO_XYFUser> Put(List<int> ids)
+        {
+            return this.userManager.Delete(ids);
+        }
+
         [Route("RemoveById")]
         public DTO_XYFUser Delete(int id)
         {
-            return this.userManager.Delete(id);
+            return this.userManager.Remove(id);
+        }
+
+        [Route("RemoveByIds")]
+        public List<DTO_XYFUser> Delete(List<int> ids)
+        {
+            return this.userManager.Remove(ids);
         }
     }
 }
