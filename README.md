@@ -1,4 +1,4 @@
 ## 结构框架
 
-![image](./uploads/images/framework.png)
+![image](https://github.com/m9liuyi/XiaoYaFuture/raw/master/upload/images/framework.png)
 
