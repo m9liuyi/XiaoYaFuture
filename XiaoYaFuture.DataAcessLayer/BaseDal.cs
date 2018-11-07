@@ -8,7 +8,6 @@ using XiaoYaFuture.Common;
 using XiaoYaFuture.Data.Entity.Context;
 using XiaoYaFuture.DataAcessLayer.Interface;
 using XiaoYaFuture.QueryParameter;
-using XiaoYaFuture.Utility;
 using Z.BulkOperations;
 
 namespace XiaoYaFuture.DataAcessLayer

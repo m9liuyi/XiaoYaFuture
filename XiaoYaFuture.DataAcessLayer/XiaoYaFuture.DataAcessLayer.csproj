@@ -77,10 +77,6 @@
       <Project>{CE5FC3E5-5F2C-462E-87DE-362578D84E63}</Project>
       <Name>XiaoYaFuture.QueryParameter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XiaoYaFuture.Utility\XiaoYaFuture.Utility.csproj">
-      <Project>{102C1522-83C4-4257-88BE-0E4A4E90384A}</Project>
-      <Name>XiaoYaFuture.Utility</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
