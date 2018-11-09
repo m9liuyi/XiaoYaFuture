@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using NiceNet.Data.Dto;
-using NiceNet.Data.Entity.Context;
+using NiceNet.Data.Entity;
 using NiceNet.DataAcessLayer.Interface;
 
 namespace NiceNet.DataAcessLayer

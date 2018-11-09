@@ -24,15 +24,15 @@ namespace NiceNet.DataAcessLayer
 
         public T GetById(int id)
         {
-            return this.dal.List(new BaseQueryParameters() {
+            return this.dal.List(new BaseQueryParameters()
+            {
                 PrimaryKey = id
             })
             .S2T<E, T>()
             .FirstOrDefault<T>();
         }
 
-        public List<T> List<M>(M query)
-            where M : BaseQueryParameters
+        public List<T> List<M>(M query) where M : BaseQueryParameters
         {
             return this.dal.List<M>(query)
                 .S2T<E, T>();

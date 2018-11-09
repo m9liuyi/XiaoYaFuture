@@ -25,23 +25,5 @@
 
         public DbSet<XYFUser> XYFUsers { get; set; }
         public DbSet<XYFDepartment> XYFDepartments { get; set; }
-
-    }
-
-
-    public class XYFUser : BaseEntity
-    {
-        [Key]
-        public int XYFUserId { get; set; }
-
-        public string Name { get; set; }
-    }
-
-    public class XYFDepartment : BaseEntity
-    {
-        [Key]
-        public int XYFDepartmentId { get; set; }
-
-        public string Name { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using NiceNet.Common;
 using NiceNet.Data.Dto;
-using NiceNet.Data.Entity.Context;
+using NiceNet.Data.Entity;
 
 namespace NiceNet.DataAcessLayer.Interface
 {

@@ -9,8 +9,7 @@ using NiceNet.QueryParameter;
 
 namespace NiceNet.DataAcessLayer.Interface
 {
-    public interface IBaseDal<E> 
-        where E : BaseEntity
+    public interface IBaseDal<E> where E : BaseEntity
     {
         List<E> List<M>(M query) where M : BaseQueryParameters;
 
