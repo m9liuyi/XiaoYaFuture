@@ -51,6 +51,10 @@
       <Project>{A31625A7-D1DB-4736-A74E-65EC8E7D487E}</Project>
       <Name>NiceNet.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NiceNet.Data.Dto\NiceNet.Data.Dto.csproj">
+      <Project>{c8678b55-0984-4aed-b68c-37a93beec2bd}</Project>
+      <Name>NiceNet.Data.Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NiceNet.Data.Entity\NiceNet.Data.Entity.csproj">
       <Project>{3554BE27-F532-4734-91D9-6632D66AAE50}</Project>
       <Name>NiceNet.Data.Entity</Name>

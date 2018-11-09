@@ -12,9 +12,6 @@ namespace NiceNet.DataAcessLayer
 {
     public class UserRepository : BaseRepository<DTO_XYFUser, XYFUser>, IUserRepository
     {
-        public UserRepository(IBaseDal<XYFUser> dal) : base(dal)
-        {
-
-        }
+        
     }
 }

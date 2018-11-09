@@ -1,14 +1,13 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web.Http;
-using NiceNet.Common;
+
 using NiceNet.Data.Entity.Context;
 using NiceNet.DataAcessLayer;
 using NiceNet.DataAcessLayer.Interface;
+
+using System.Linq;
+using System.Reflection;
+using System.Web.Http;
 
 namespace NiceNet
 {
@@ -18,59 +17,38 @@ namespace NiceNet
         {
             ContainerBuilder builder = new ContainerBuilder();
 
-            // 注册Controllers
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-
             // 注册数据库Context
             builder.Register<XYFContext>(x => new XYFContext())
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
 
             // 注册BaseDal<>
             builder.RegisterGeneric(typeof(BaseDal<>))
                 .As(typeof(IBaseDal<>))
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
 
             // 注册BaseRepository<>
             builder.RegisterGeneric(typeof(BaseRepository<,>))
                 .As(typeof(IBaseRepository<,>))
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
 
-            var iocType = typeof(IDependency);
+            var iRepository = Assembly.Load("NiceNet.DataAcessLayer.Interface");
+            var repository = Assembly.Load("NiceNet.DataAcessLayer");
+            var iManager = Assembly.Load("NiceNet.Manager.Interface");
+            var manager = Assembly.Load("NiceNet.Manager");
+            builder.RegisterAssemblyTypes(iRepository, repository)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces()
+                .PropertiesAutowired();
+            builder.RegisterAssemblyTypes(iManager, manager)
+                .Where(t => t.Name.EndsWith("Manager"))
+                .AsImplementedInterfaces()
+                .PropertiesAutowired();
 
-            #region 注册所有实现IDependency的接口类
-            // 需要引入对应的项目
-            var IoCProjectNames = new List<string>()
-            {
-                "NiceNet.Manager",
-            };
-
-            foreach (var IoCProjectName in IoCProjectNames)
-            {
-                var assembly = Assembly.Load(IoCProjectName);
-
-                builder.RegisterAssemblyTypes(assembly)
-                       .Where(t => iocType.IsAssignableFrom(t) && t != iocType && !t.IsAbstract)
-                       .AsImplementedInterfaces()
-                       .InstancePerLifetimeScope();
-            }
-            #endregion
-
-            #region 注册所有Repository
-            // 需要引入对应的项目
-            IoCProjectNames = new List<string>()
-            {
-                "NiceNet.DataAcessLayer",
-            };
-
-            foreach (var IoCProjectName in IoCProjectNames)
-            {
-                var assembly = Assembly.Load(IoCProjectName);
-
-                builder.RegisterAssemblyTypes(assembly)
-                       .Where(t => iocType.IsAssignableFrom(t) && !t.IsAbstract && t != iocType && t.Name.EndsWith("Repository"))
-                       .InstancePerLifetimeScope();
-            }
-            #endregion
+            // 注册Controllers
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
 
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

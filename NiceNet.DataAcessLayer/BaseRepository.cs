@@ -18,12 +18,7 @@ namespace NiceNet.DataAcessLayer
         where T : BaseDto 
         where E : BaseEntity
     {
-        public IBaseDal<E> dal;
-
-        public BaseRepository(IBaseDal<E> dal)
-        {
-            this.dal = dal;
-        }
+        public IBaseDal<E> dal { get; set; }
 
         #region IBaseRepository<T> Members
 

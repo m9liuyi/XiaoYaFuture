@@ -15,13 +15,7 @@ namespace NiceNet.DataAcessLayer
     public class BaseDal<E> : IBaseDal<E> 
         where E : BaseEntity
     {
-        private XYFContext context { get; set; }
-
-
-        public BaseDal(XYFContext context)
-        {
-            this.context = context;
-        }
+        public XYFContext context { get; set; }
 
         #region IBaseDal<E> Members
 
