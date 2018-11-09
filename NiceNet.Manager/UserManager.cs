@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NiceNet.Common;
+
 using NiceNet.Data.Dto;
-using NiceNet.Data.Entity.Context;
-using NiceNet.DataAcessLayer;
 using NiceNet.DataAcessLayer.Interface;
 using NiceNet.Manager.Interface;
 using NiceNet.QueryParameter;

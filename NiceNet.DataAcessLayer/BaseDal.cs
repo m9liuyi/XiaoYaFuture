@@ -14,7 +14,7 @@ namespace NiceNet.DataAcessLayer
 {
     public class BaseDal<E> : IBaseDal<E> where E : BaseEntity
     {
-        public XYFContext context { get; set; }
+        public XYFContext Context { get; set; }
 
         #region IBaseDal<E> Members
 
@@ -22,7 +22,7 @@ namespace NiceNet.DataAcessLayer
         {
             var wheres = Extension.QueryParameterToWhere<E, M>(queryParameter);
 
-            IQueryable<E> iQueryable = context.Set<E>();
+            IQueryable<E> iQueryable = Context.Set<E>();
             if (wheres != null)
             {
                 iQueryable = iQueryable.Where(wheres);
@@ -37,7 +37,7 @@ namespace NiceNet.DataAcessLayer
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
-            context.BulkInsert(entities, options =>
+            Context.BulkInsert(entities, options =>
             {
                 options.UseAudit = true;
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
@@ -50,7 +50,7 @@ namespace NiceNet.DataAcessLayer
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
-            context.BulkUpdate(entities, options =>
+            Context.BulkUpdate(entities, options =>
             {
                 options.UseAudit = true;
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
@@ -66,7 +66,7 @@ namespace NiceNet.DataAcessLayer
 
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
-            context.Set<E>()
+            Context.Set<E>()
                 .Where<E>(wheres)
                 .UpdateFromQuery<E>(p => Extension.PrepareEntity4UpdateFromQuery<E>(columnValues));
 
@@ -77,7 +77,7 @@ namespace NiceNet.DataAcessLayer
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
-            context.BulkDelete(entities, options =>
+            Context.BulkDelete(entities, options =>
             {
                 options.UseAudit = true;
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
@@ -99,7 +99,7 @@ namespace NiceNet.DataAcessLayer
 
             var wheres = Extension.QueryParameterToWhere<E, M>(query);
 
-            context.Set<E>().Where(wheres).DeleteFromQuery<E>(options =>
+            Context.Set<E>().Where(wheres).DeleteFromQuery<E>(options =>
             {
                 options.UseAudit = true;
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);
@@ -112,7 +112,7 @@ namespace NiceNet.DataAcessLayer
         {
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
-            context.BulkUpdate(entities, options =>
+            Context.BulkUpdate(entities, options =>
             {
                 options.UseAudit = true;
                 options.BulkOperationExecuted = bulkOperation => auditEntries.AddRange(bulkOperation.AuditEntries);

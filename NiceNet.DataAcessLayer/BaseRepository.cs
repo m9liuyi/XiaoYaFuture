@@ -18,13 +18,13 @@ namespace NiceNet.DataAcessLayer
         where T : BaseDto 
         where E : BaseEntity
     {
-        public IBaseDal<E> dal { get; set; }
+        public IBaseDal<E> Dal { get; set; }
 
         #region IBaseRepository<T> Members
 
         public T GetById(int id)
         {
-            return this.dal.List(new BaseQueryParameters()
+            return this.Dal.List(new BaseQueryParameters()
             {
                 PrimaryKey = id
             })
@@ -34,7 +34,7 @@ namespace NiceNet.DataAcessLayer
 
         public List<T> GetByIds(List<int> ids)
         {
-            return this.dal.List(new BaseQueryParameters()
+            return this.Dal.List(new BaseQueryParameters()
             {
                 PrimaryKeys = ids
             })
@@ -43,37 +43,37 @@ namespace NiceNet.DataAcessLayer
 
         public List<T> List<M>(M query) where M : BaseQueryParameters
         {
-            return this.dal.List<M>(query)
+            return this.Dal.List<M>(query)
                 .S2T<E, T>();
         }
 
         public T InsertDto(T dto)
         {
-            var results = this.dal.BulkInsert(new List<E>() { dto.S2T<T, E>() });
+            var results = this.Dal.BulkInsert(new List<E>() { dto.S2T<T, E>() });
             return results.S2T<E, T>().FirstOrDefault();
         }
 
         public T UpdateDto(T dto)
         {
-            var results = this.dal.BulkUpdate(new List<E>() { dto.S2T<T, E>() });
+            var results = this.Dal.BulkUpdate(new List<E>() { dto.S2T<T, E>() });
             return results.S2T<E, T>().FirstOrDefault();
         }
 
         public List<T> InsertDtos(List<T> dtos)
         {
-            return this.dal.BulkInsert(dtos.S2T<T, E>())
+            return this.Dal.BulkInsert(dtos.S2T<T, E>())
                 .S2T<E, T>();
         }
 
         public List<T> UpdateDtos(List<T> dtos)
         {
-            return this.dal.BulkUpdate(dtos.S2T<T, E>())
+            return this.Dal.BulkUpdate(dtos.S2T<T, E>())
                 .S2T<E, T>();
         }
 
         public List<T> UpdateProperties(List<int> ids, Dictionary<string, object> columnValues)
         {
-            return this.dal.BulkUpdate(new BaseQueryParameters()
+            return this.Dal.BulkUpdate(new BaseQueryParameters()
             {
                 PrimaryKeys = ids,
             }, columnValues)
@@ -82,18 +82,18 @@ namespace NiceNet.DataAcessLayer
 
         public T RemoveDto(T dto)
         {
-            var results = this.dal.BulkRemove(new List<E>() { dto.S2T<T, E>() });
+            var results = this.Dal.BulkRemove(new List<E>() { dto.S2T<T, E>() });
             return results.S2T<E, T>().FirstOrDefault();
         }
 
         public List<T> RemoveDtos(List<T> dtos)
         {
-            return this.dal.BulkRemove(dtos.S2T<T, E>()).S2T<E, T>();
+            return this.Dal.BulkRemove(dtos.S2T<T, E>()).S2T<E, T>();
         }
 
         public T RemoveById(int id)
         {
-            var results = this.dal.BulkRemoveById(new BaseQueryParameters()
+            var results = this.Dal.BulkRemoveById(new BaseQueryParameters()
             {
                 PrimaryKey = id,
             });
@@ -102,7 +102,7 @@ namespace NiceNet.DataAcessLayer
 
         public List<T> RemoveByIds(List<int> ids)
         {
-            var results = this.dal.BulkRemoveById(new BaseQueryParameters()
+            var results = this.Dal.BulkRemoveById(new BaseQueryParameters()
             {
                 PrimaryKeys = ids,
             });
@@ -111,20 +111,20 @@ namespace NiceNet.DataAcessLayer
 
         public T DeleteDto(T dto)
         {
-            return this.dal.BulkDelete(new List<E>() { dto.S2T<T, E>() })
+            return this.Dal.BulkDelete(new List<E>() { dto.S2T<T, E>() })
                 .S2T<E, T>()
                 .FirstOrDefault();
         }
 
         public List<T> DeleteDtos(List<T> dtos)
         {
-            return this.dal.BulkDelete(dtos.S2T<T, E>())
+            return this.Dal.BulkDelete(dtos.S2T<T, E>())
                 .S2T<E, T>();
         }
 
         public T DeleteById(int id)
         {
-            var results = this.dal.BulkDeleteById(new BaseQueryParameters()
+            var results = this.Dal.BulkDeleteById(new BaseQueryParameters()
             {
                 PrimaryKey = id,
             });
@@ -133,7 +133,7 @@ namespace NiceNet.DataAcessLayer
 
         public List<T> DeleteByIds(List<int> ids)
         {
-            var results = this.dal.BulkDeleteById(new BaseQueryParameters()
+            var results = this.Dal.BulkDeleteById(new BaseQueryParameters()
             {
                 PrimaryKeys = ids,
             });
