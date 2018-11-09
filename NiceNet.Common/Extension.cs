@@ -13,15 +13,16 @@ namespace NiceNet.Common
 {
     public static class Extension
     {
-
+        #region dal相关
+        
         /// <summary>
-        /// 将Query转化为where条件Lamada表达式
+        /// 将 QueryParameter 转化为where条件Lamada表达式
         /// </summary>
         /// <typeparam name="E">Entity</typeparam>
         /// <typeparam name="M">BaseQueryParameters</typeparam>
         /// <param name="queryParameter"></param>
         /// <returns></returns>
-        public static Expression<Func<E, bool>> QueryToWhere<E, M>(M queryParameter)
+        public static Expression<Func<E, bool>> QueryParameterToWhere<E, M>(M queryParameter)
             where E : BaseEntity
             where M : BaseQueryParameters
         {
@@ -129,6 +130,12 @@ namespace NiceNet.Common
             }
         }
 
+        /// <summary>
+        /// 批量插入时，不会自动填入Entity生成的Id, 故用此方法从AuditEntry中获取新的Entity(ies)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="auditEntries"></param>
+        /// <returns></returns>
         public static List<T> AuditEntryToEntity<T>(this List<AuditEntry> auditEntries) where T : class
         {
             if (auditEntries == null || auditEntries.Count == 0)
@@ -167,13 +174,15 @@ namespace NiceNet.Common
                 return obj;
             }).ToList<T>();
         }
+        
+        #endregion
 
         /// <summary>
-        /// Source => Target
+        /// 类型转换(List)S->T
         /// </summary>
         /// <typeparam name="S"></typeparam>
         /// <typeparam name="T"></typeparam>
-        /// <param name="entities"></param>
+        /// <param name="sourceList"></param>
         /// <returns></returns>
         public static List<T> S2T<S, T>(this List<S> sourceList)
         {
@@ -191,11 +200,10 @@ namespace NiceNet.Common
             var propertyNamesOfTarget = propertiesOfTarget.Select(p => p.Name).ToList();
             var propertyNamesOfSource = propertiesOfSource.Select(p => p.Name).ToList();
 
-            if (propertiesOfSource.Where(p => !propertyNamesOfTarget.Contains(p.Name)).Any())
-            {
-                throw new Exception("S中有些属性在T中不存在");
-            }
-
+            //if (propertiesOfSource.Where(p => !propertyNamesOfTarget.Contains(p.Name)).Any())
+            //{
+            //    throw new Exception("S中有些属性在T中不存在");
+            //}
             
             return sourceList.Select(p =>
             {
@@ -225,7 +233,13 @@ namespace NiceNet.Common
             .ToList<T>();
         }
 
-
+        /// <summary>
+        /// 类型转换(Single)S->T
+        /// </summary>
+        /// <typeparam name="S"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static T S2T<S, T>(this S source)
         {
             if (source == null)
@@ -242,12 +256,10 @@ namespace NiceNet.Common
             var propertyNamesOfTarget = propertiesOfTarget.Select(p => p.Name).ToList();
             var propertyNamesOfSource = propertiesOfSource.Select(p => p.Name).ToList();
 
-            if (propertiesOfSource.Where(p => !propertyNamesOfTarget.Contains(p.Name)).Any())
-            {
-                throw new Exception("S中有些属性在T中不存在");
-            }
-
-
+            //if (propertiesOfSource.Where(p => !propertyNamesOfTarget.Contains(p.Name)).Any())
+            //{
+            //    throw new Exception("S中有些属性在T中不存在");
+            //}
 
             T obj = (T)targetType.Assembly.CreateInstance(targetType.FullName);
 
@@ -299,6 +311,25 @@ namespace NiceNet.Common
             }
 
             return (T)returnObj;
+        }
+
+        public static IQueryable<E> HandlePagination<E, M>(this IQueryable<E> iQueryable, M queryParameter)
+            where E : BaseEntity
+            where M : BaseQueryParameters
+        {
+            if (!(queryParameter is BaseQueryParameters))
+            {
+                throw new ArgumentException("Extension.QueryToWhere: 参数必须是 BaseQueryParameters 的子类");
+            }
+
+            if (queryParameter.CurrentPage.HasValue && queryParameter.CurrentPage.Value >= 1
+                && queryParameter.PageSize.HasValue && queryParameter.PageSize.Value > 0)
+            {
+                queryParameter.PageCount = iQueryable.Count();
+                return iQueryable.Skip(queryParameter.CurrentPage.Value - 1).Take(queryParameter.PageSize.Value);
+            }
+
+            return iQueryable;
         }
     }
 }

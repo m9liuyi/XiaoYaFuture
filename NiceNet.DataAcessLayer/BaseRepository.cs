@@ -32,105 +32,6 @@ namespace NiceNet.DataAcessLayer
             .FirstOrDefault<T>();
         }
 
-        public List<T> List<M>(M query) where M : BaseQueryParameters
-        {
-            return this.dal.List<M>(query)
-                .S2T<E, T>();
-        }
-
-        public T Insert(T dto)
-        {
-            var results = this.dal.BulkInsert(new List<E>() { dto.S2T<T, E>() });
-            return results.S2T<E, T>().FirstOrDefault();
-        }
-
-        public T Update(T dto)
-        {
-            var results = this.dal.BulkUpdate(new List<E>() { dto.S2T<T, E>() });
-            return results.S2T<E, T>().FirstOrDefault();
-        }
-
-        public List<T> Insert(List<T> dtos)
-        {
-            return this.dal.BulkInsert(dtos.S2T<T, E>())
-                .S2T<E, T>();
-        }
-
-        public List<T> Update(List<T> dtos)
-        {
-            return this.dal.BulkUpdate(dtos.S2T<T, E>())
-                .S2T<E, T>();
-        }
-
-        public List<T> Update(List<int> ids, Dictionary<string, object> columnValues)
-        {
-            return this.dal.BulkUpdate(new BaseQueryParameters()
-            {
-                PrimaryKeys = ids,
-            }, columnValues)
-            .S2T<E, T>();
-        }
-
-        public T Remove(T dto)
-        {
-            var results = this.dal.BulkRemove(new List<E>() { dto.S2T<T, E>() });
-            return results.S2T<E, T>().FirstOrDefault();
-        }
-
-        public T Remove(int id)
-        {
-            var results = this.dal.BulkRemoveById(new BaseQueryParameters()
-            {
-                PrimaryKey = id,
-            });
-            return results.S2T<E, T>().FirstOrDefault();
-        }
-
-        public List<T> Remove(List<T> dtos)
-        {
-            return this.dal.BulkRemove(dtos.S2T<T, E>()).S2T<E, T>();
-        }
-
-        public List<T> Remove(List<int> ids)
-        {
-            var results = this.dal.BulkRemoveById(new BaseQueryParameters()
-            {
-                PrimaryKeys = ids,
-            });
-            return results.S2T<E, T>();
-        }
-
-        public List<T> Delete(List<int> ids)
-        {
-            var results = this.dal.BulkDeleteById(new BaseQueryParameters()
-            {
-                PrimaryKeys = ids,
-            });
-            return results.S2T<E, T>();
-        }
-
-        public List<T> Delete(List<T> dtos)
-        {
-            return this.dal.BulkDelete(dtos.S2T<T, E>())
-                .S2T<E, T>();
-        }
-
-        public T Delete(T dto)
-        {
-            return this.dal.BulkDelete(new List<E>() { dto.S2T<T, E>() })
-                .S2T<E, T>()
-                .FirstOrDefault();
-        }
-
-        public T Delete(int id)
-        {
-            var results = this.dal.BulkDeleteById(new BaseQueryParameters()
-            {
-                PrimaryKey = id,
-            });
-            return results.S2T<E, T>().FirstOrDefault();
-        }
-
         public List<T> GetByIds(List<int> ids)
         {
             return this.dal.List(new BaseQueryParameters()
@@ -139,6 +40,106 @@ namespace NiceNet.DataAcessLayer
             })
             .S2T<E, T>();
         }
+
+        public List<T> List<M>(M query) where M : BaseQueryParameters
+        {
+            return this.dal.List<M>(query)
+                .S2T<E, T>();
+        }
+
+        public T InsertDto(T dto)
+        {
+            var results = this.dal.BulkInsert(new List<E>() { dto.S2T<T, E>() });
+            return results.S2T<E, T>().FirstOrDefault();
+        }
+
+        public T UpdateDto(T dto)
+        {
+            var results = this.dal.BulkUpdate(new List<E>() { dto.S2T<T, E>() });
+            return results.S2T<E, T>().FirstOrDefault();
+        }
+
+        public List<T> InsertDtos(List<T> dtos)
+        {
+            return this.dal.BulkInsert(dtos.S2T<T, E>())
+                .S2T<E, T>();
+        }
+
+        public List<T> UpdateDtos(List<T> dtos)
+        {
+            return this.dal.BulkUpdate(dtos.S2T<T, E>())
+                .S2T<E, T>();
+        }
+
+        public List<T> UpdateProperties(List<int> ids, Dictionary<string, object> columnValues)
+        {
+            return this.dal.BulkUpdate(new BaseQueryParameters()
+            {
+                PrimaryKeys = ids,
+            }, columnValues)
+            .S2T<E, T>();
+        }
+
+        public T RemoveDto(T dto)
+        {
+            var results = this.dal.BulkRemove(new List<E>() { dto.S2T<T, E>() });
+            return results.S2T<E, T>().FirstOrDefault();
+        }
+
+        public List<T> RemoveDtos(List<T> dtos)
+        {
+            return this.dal.BulkRemove(dtos.S2T<T, E>()).S2T<E, T>();
+        }
+
+        public T RemoveById(int id)
+        {
+            var results = this.dal.BulkRemoveById(new BaseQueryParameters()
+            {
+                PrimaryKey = id,
+            });
+            return results.S2T<E, T>().FirstOrDefault();
+        }
+
+        public List<T> RemoveByIds(List<int> ids)
+        {
+            var results = this.dal.BulkRemoveById(new BaseQueryParameters()
+            {
+                PrimaryKeys = ids,
+            });
+            return results.S2T<E, T>();
+        }
+
+        public T DeleteDto(T dto)
+        {
+            return this.dal.BulkDelete(new List<E>() { dto.S2T<T, E>() })
+                .S2T<E, T>()
+                .FirstOrDefault();
+        }
+
+        public List<T> DeleteDtos(List<T> dtos)
+        {
+            return this.dal.BulkDelete(dtos.S2T<T, E>())
+                .S2T<E, T>();
+        }
+
+        public T DeleteById(int id)
+        {
+            var results = this.dal.BulkDeleteById(new BaseQueryParameters()
+            {
+                PrimaryKey = id,
+            });
+            return results.S2T<E, T>().FirstOrDefault();
+        }
+
+        public List<T> DeleteByIds(List<int> ids)
+        {
+            var results = this.dal.BulkDeleteById(new BaseQueryParameters()
+            {
+                PrimaryKeys = ids,
+            });
+            return results.S2T<E, T>();
+        }
+
         #endregion
     }
 }

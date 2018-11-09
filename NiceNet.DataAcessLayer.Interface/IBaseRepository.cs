@@ -24,17 +24,17 @@ namespace NiceNet.DataAcessLayer.Interface
 
         #region insert
 
-        T Insert(T dto);
+        T InsertDto(T dto);
 
-        List<T> Insert(List<T> dtos);
+        List<T> InsertDtos(List<T> dtos);
 
         #endregion
 
         #region update
 
-        T Update(T dto);
+        T UpdateDto(T dto);
 
-        List<T> Update(List<T> dtos);
+        List<T> UpdateDtos(List<T> dtos);
 
         /// <summary>
         /// 编辑ids中的指定几个字段
@@ -42,7 +42,7 @@ namespace NiceNet.DataAcessLayer.Interface
         /// <param name="ids"></param>
         /// <param name="columnValues"></param>
         /// <returns></returns>
-        List<T> Update(List<int> ids, Dictionary<string, object> columnValues);
+        List<T> UpdateProperties(List<int> ids, Dictionary<string, object> columnValues);
 
         #endregion
 
@@ -53,28 +53,28 @@ namespace NiceNet.DataAcessLayer.Interface
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        T Remove(T dto);
+        T RemoveDto(T dto);
 
         /// <summary>
         /// 物理删除，所有Entity与Dto中必须用IsDelete字段标识删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T Remove(int id);
+        T RemoveById(int id);
 
         /// <summary>
         /// 物理删除
         /// </summary>
         /// <param name="dtos"></param>
         /// <returns></returns>
-        List<T> Remove(List<T> dtos);
+        List<T> RemoveDtos(List<T> dtos);
 
         /// <summary>
         /// 物理删除，所有Entity与Dto中必须用IsDelete字段标识删除
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        List<T> Remove(List<int> ids);
+        List<T> RemoveByIds(List<int> ids);
 
         #endregion
 
@@ -85,28 +85,28 @@ namespace NiceNet.DataAcessLayer.Interface
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        T Delete(T dto);
+        T DeleteDto(T dto);
 
         /// <summary>
         /// 逻辑删除，所有Entity与Dto中必须用IsDelete字段标识删除
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        T Delete(int id);
+        T DeleteById(int id);
 
         /// <summary>
         /// 逻辑删除
         /// </summary>
         /// <param name="dtos"></param>
         /// <returns></returns>
-        List<T> Delete(List<T> dtos);
+        List<T> DeleteDtos(List<T> dtos);
 
         /// <summary>
         /// 逻辑删除，所有Entity与Dto中必须用IsDelete字段标识删除
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        List<T> Delete(List<int> ids);
+        List<T> DeleteByIds(List<int> ids);
 
         #endregion
     }

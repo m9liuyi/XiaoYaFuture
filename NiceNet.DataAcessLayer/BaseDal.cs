@@ -12,17 +12,15 @@ using Z.BulkOperations;
 
 namespace NiceNet.DataAcessLayer
 {
-    public class BaseDal<E> : IBaseDal<E> 
-        where E : BaseEntity
+    public class BaseDal<E> : IBaseDal<E> where E : BaseEntity
     {
         public XYFContext context { get; set; }
 
         #region IBaseDal<E> Members
 
-        public List<E> List<M>(M queryParameter) 
-            where M : BaseQueryParameters
+        public List<E> List<M>(M queryParameter) where M : BaseQueryParameters
         {
-            var wheres = Extension.QueryToWhere<E,M>(queryParameter);
+            var wheres = Extension.QueryParameterToWhere<E, M>(queryParameter);
 
             IQueryable<E> iQueryable = context.Set<E>();
             if (wheres != null)
@@ -30,7 +28,7 @@ namespace NiceNet.DataAcessLayer
                 iQueryable = iQueryable.Where(wheres);
             }
 
-            var result = iQueryable.ToList();
+            var result = iQueryable.HandlePagination<E, M>(queryParameter).ToList();
 
             return result;
         }
@@ -64,7 +62,7 @@ namespace NiceNet.DataAcessLayer
         public List<E> BulkUpdate<M>(M query, Dictionary<string, object> columnValues)
             where M : BaseQueryParameters
         {
-            var wheres = Extension.QueryToWhere<E, M>(query);
+            var wheres = Extension.QueryParameterToWhere<E, M>(query);
 
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
@@ -99,7 +97,7 @@ namespace NiceNet.DataAcessLayer
 
             List<AuditEntry> auditEntries = new List<AuditEntry>();
 
-            var wheres = Extension.QueryToWhere<E, M>(query);
+            var wheres = Extension.QueryParameterToWhere<E, M>(query);
 
             context.Set<E>().Where(wheres).DeleteFromQuery<E>(options =>
             {
@@ -123,8 +121,7 @@ namespace NiceNet.DataAcessLayer
             return auditEntries.AuditEntryToEntity<E>();
         }
 
-        public List<E> BulkDeleteById<M>(M query) 
-            where M : BaseQueryParameters
+        public List<E> BulkDeleteById<M>(M query) where M : BaseQueryParameters
         {
 
             if (query == null 
