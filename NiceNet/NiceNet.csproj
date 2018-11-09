@@ -147,7 +147,7 @@
       <Name>NiceNet.DataAcessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\NiceNet.Manager.Interface\NiceNet.Manager.Interface.csproj">
-      <Project>{d4e4a42b-b498-46de-af1b-aeeb3c28ac3d}</Project>
+      <Project>{D4E4A42B-B498-46DE-AF1B-AEEB3C28AC3D}</Project>
       <Name>NiceNet.Manager.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\NiceNet.Manager\NiceNet.Manager.csproj">

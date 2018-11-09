@@ -34,21 +34,25 @@ namespace NiceNet
                 .InstancePerLifetimeScope()
                 .PropertiesAutowired();
 
+            // 注册Repository
             var iRepository = Assembly.Load("NiceNet.DataAcessLayer.Interface");
             var repository = Assembly.Load("NiceNet.DataAcessLayer");
-            var iManager = Assembly.Load("NiceNet.Manager.Interface");
-            var manager = Assembly.Load("NiceNet.Manager");
             builder.RegisterAssemblyTypes(iRepository, repository)
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired();
+
+            // 注册Manager
+            var iManager = Assembly.Load("NiceNet.Manager.Interface");
+            var manager = Assembly.Load("NiceNet.Manager");
             builder.RegisterAssemblyTypes(iManager, manager)
                 .Where(t => t.Name.EndsWith("Manager"))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired();
 
             // 注册Controllers
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).PropertiesAutowired();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly())
+                .PropertiesAutowired();
 
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
