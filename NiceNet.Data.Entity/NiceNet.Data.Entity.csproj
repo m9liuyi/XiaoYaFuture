@@ -58,6 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\XYFContext.cs" />
+    <Compile Include="Migrations\201811071050405_InitialCreate.cs" />
+    <Compile Include="Migrations\201811071050405_InitialCreate.Designer.cs">
+      <DependentUpon>201811071050405_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811131041312_Add user.password.cs" />
+    <Compile Include="Migrations\201811131041312_Add user.password.Designer.cs">
+      <DependentUpon>201811131041312_Add user.password.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XYFDepartment.cs" />
     <Compile Include="XYFUser.cs" />
@@ -71,6 +80,17 @@
       <Project>{A31625A7-D1DB-4736-A74E-65EC8E7D487E}</Project>
       <Name>NiceNet.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811071050405_InitialCreate.resx">
+      <DependentUpon>201811071050405_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811131041312_Add user.password.resx">
+      <DependentUpon>201811131041312_Add user.password.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Migrations\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,6 +11,7 @@ namespace NiceNet.Data.Dto
     {
         public int XYFUserId { get; set; }
         public string Name { get; set; }
+        public string Password { get; set; }
     }
 
     
