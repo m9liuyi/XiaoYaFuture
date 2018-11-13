@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserManager.cs" />
   </ItemGroup>
@@ -57,17 +58,9 @@
       <Project>{3554BE27-F532-4734-91D9-6632D66AAE50}</Project>
       <Name>NiceNet.Data.Entity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NiceNet.DataAcessLayer.Interface\NiceNet.DataAcessLayer.Interface.csproj">
-      <Project>{032E4978-EEAD-426E-924D-37EA0FB0738C}</Project>
-      <Name>NiceNet.DataAcessLayer.Interface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NiceNet.DataAcessLayer\NiceNet.DataAcessLayer.csproj">
       <Project>{EE19EC6D-BA16-4D12-A22A-21F01CB366AE}</Project>
       <Name>NiceNet.DataAcessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NiceNet.Manager.Interface\NiceNet.Manager.Interface.csproj">
-      <Project>{D4E4A42B-B498-46DE-AF1B-AEEB3C28AC3D}</Project>
-      <Name>NiceNet.Manager.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\NiceNet.QueryParameter\NiceNet.QueryParameter.csproj">
       <Project>{CE5FC3E5-5F2C-462E-87DE-362578D84E63}</Project>

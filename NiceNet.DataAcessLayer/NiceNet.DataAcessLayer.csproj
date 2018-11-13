@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="BaseDal.cs" />
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="Interface\IBaseDal.cs" />
+    <Compile Include="Interface\IBaseRepository.cs" />
+    <Compile Include="Interface\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
@@ -68,10 +71,6 @@
     <ProjectReference Include="..\NiceNet.Data.Entity\NiceNet.Data.Entity.csproj">
       <Project>{3554BE27-F532-4734-91D9-6632D66AAE50}</Project>
       <Name>NiceNet.Data.Entity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NiceNet.DataAcessLayer.Interface\NiceNet.DataAcessLayer.Interface.csproj">
-      <Project>{032E4978-EEAD-426E-924D-37EA0FB0738C}</Project>
-      <Name>NiceNet.DataAcessLayer.Interface</Name>
     </ProjectReference>
     <ProjectReference Include="..\NiceNet.QueryParameter\NiceNet.QueryParameter.csproj">
       <Project>{CE5FC3E5-5F2C-462E-87DE-362578D84E63}</Project>
