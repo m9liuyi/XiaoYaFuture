@@ -13,7 +13,7 @@ namespace NiceNet.Filters
     {
         public Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
-            return Task.FromCanceled(cancellationToken);
+            return Task.FromResult(0);
         }
 
         public Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken)
