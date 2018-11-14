@@ -12,7 +12,7 @@ using NiceNet.QueryParameter;
 namespace NiceNet.Controllers
 {
     [RoutePrefix("api/User")]
-    public class UserController : ApiController
+    public class UserController : BaseController
     {
         public IUserManager UserManager { get; set; }
 

@@ -1,10 +1,10 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
-
+using NiceNet.Controllers;
 using NiceNet.Data.Entity.Context;
 using NiceNet.DataAcessLayer;
 using NiceNet.DataAcessLayer.Interface;
-
+using NiceNet.Filters;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
@@ -46,6 +46,27 @@ namespace NiceNet
             builder.RegisterAssemblyTypes(manager)
                 .Where(t => t.Name.EndsWith("Manager"))
                 .AsImplementedInterfaces()
+                .PropertiesAutowired();
+
+            // 注册过滤器Provider
+            builder.RegisterWebApiFilterProvider(config);
+
+            // 注册Custom过滤器
+            builder.Register(c =>  new CustomAuthorizationFilter())
+                .AsWebApiAuthorizationFilterFor<BaseController>()
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
+            builder.Register(c => new CustomActionFilter())
+                .AsWebApiActionFilterFor<BaseController>()
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
+            builder.Register(c => new CustomExceptionFilter())
+                .AsWebApiExceptionFilterOverrideFor<BaseController>()
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired();
+            builder.Register(c => new CustomAuthenticationFilter())
+                .AsWebApiAuthenticationFilterFor<BaseController>()
+                .InstancePerLifetimeScope()
                 .PropertiesAutowired();
 
             // 注册Controllers
