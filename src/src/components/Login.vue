@@ -1,24 +1,61 @@
 <template>
-    <div>
-        <form class="layui-form layui-form-pane" action="">
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-                <div class="layui-input-inline">
-                    <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
-            </div>
-            <div class="layui-form-item">
-                <button class="layui-btn" lay-submit="" lay-filter="demo2">跳转式提交</button>
-            </div>
-        </form>
-    </div>
+    <Row>
+        <Col span="8">&nbsp;</Col>
+        <Col span="8">
+            <Form ref="formInline" :model="formInline" :rules="ruleInline" class="layout">
+                <FormItem prop="user">
+                    <Input type="text" v-model="formInline.user" placeholder="Username">
+                    <Icon type="ios-person-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem prop="password">
+                    <Input type="password" v-model="formInline.password" placeholder="Password">
+                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
+                </FormItem>
+            </Form>
+        </Col>
+        <Col span="8">&nbsp;</Col>
+    </row>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                formInline: {
+                    user: 'yi.liu',
+                    password: '123'
+                },
+                ruleInline: {
+                    user: [
+                        {required: true, message: 'Please fill in the user name', trigger: 'blur'}
+                    ],
+                    password: [
+                        {required: true, message: 'Please fill in the password.', trigger: 'blur'},
+                        {
+                            type: 'string',
+                            min: 6,
+                            message: 'The password length cannot be less than 6 bits',
+                            trigger: 'blur'
+                        }
+                    ]
+                }
+            }
+        },
+        methods: {
+            handleSubmit(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$Message.success('Success!');
+                    } else {
+                        this.$Message.error('Fail!');
+                    }
+                })
+            }
+        }
+    }
+</script>
